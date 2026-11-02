@@ -13,6 +13,18 @@ const sequelize = new Sequelize(
     }
 
 );
+sequelize.authenticate()
+  .then(async () => {
+    const [resultado] = await sequelize.query(`
+      SELECT DATABASE() AS base, @@port AS puerto
+    `);
+
+    console.log('BASE DE DATOS REAL:', resultado);
+  })
+  .catch(error => {
+    console.error('ERROR DE CONEXIÓN:', error.message);
+  });
+
 
 module.exports = sequelize;
 
